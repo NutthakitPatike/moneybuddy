@@ -9,8 +9,8 @@ export function Reports() {
   const data = useMoneyData();
   const trend = monthlyTrend(data.transactions);
   const top = spendingByCategory(data.monthTransactions, data.categories).slice(0, 6);
-  const thisMonth = trend.at(-1);
-  const lastMonth = trend.at(-2);
+  const thisMonth = trend[trend.length - 1];
+  const lastMonth = trend[trend.length - 2];
 
   function exportCsv() {
     const rows = [["วันที่", "ประเภท", "ชื่อรายการ", "จำนวนเงิน", "วิธีชำระเงิน"], ...data.transactions.map((item) => [item.transaction_date, item.type === "income" ? "รายรับ" : "รายจ่าย", item.title, item.amount, item.payment_method ?? ""])];
