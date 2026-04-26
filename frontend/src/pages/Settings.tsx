@@ -35,7 +35,7 @@ export function Settings() {
 
   return (
     <div className="grid gap-6">
-      <div><h1 className="text-3xl font-black">โปรไฟล์และตั้งค่า</h1><p className="text-cocoa/65">จัดการบัญชี Google, สกุลเงิน, ภาษา และข้อมูลส่วนตัว</p></div>
+      <div><h1 className="text-3xl font-black">โปรไฟล์และตั้งค่า</h1><p className="text-cocoa/65">จัดการบัญชี สกุลเงิน ภาษา และข้อมูลส่วนตัว</p></div>
       <div className="grid gap-4 xl:grid-cols-[0.8fr_1.2fr]">
         <Card>
           <div className="flex items-center gap-4">

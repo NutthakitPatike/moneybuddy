@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
-import { useAuth } from "../contexts/AuthContext";
 
 export function Landing() {
-  const { signInWithGoogle } = useAuth();
   return (
     <div className="min-h-screen bg-cream soft-grid text-cocoa">
       <header className="mx-auto flex max-w-7xl items-center justify-between p-5">
@@ -21,11 +19,13 @@ export function Landing() {
           <h1 className="max-w-3xl text-5xl font-black leading-tight sm:text-6xl">Money Buddy</h1>
           <p className="max-w-2xl text-lg text-cocoa/72">บันทึกรายรับรายจ่าย วางงบ ดูรายงาน และคุยกับ AI ผู้ช่วยการเงินภาษาไทยที่วิเคราะห์ข้อมูลจริงของคุณอย่างปลอดภัย</p>
           <div className="flex flex-wrap gap-3">
-            <Button onClick={signInWithGoogle}>
-              เริ่มด้วย Google <ArrowRight size={18} />
-            </Button>
             <Link to="/register">
-              <Button variant="secondary">สมัครด้วยอีเมล</Button>
+              <Button>
+                เริ่มใช้งาน <ArrowRight size={18} />
+              </Button>
+            </Link>
+            <Link to="/login">
+              <Button variant="secondary">เข้าสู่ระบบ</Button>
             </Link>
           </div>
         </motion.section>

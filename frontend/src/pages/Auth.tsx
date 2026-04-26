@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Chrome, Layers3 } from "lucide-react";
+import { Layers3 } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { Field, Input } from "../components/ui/Input";
@@ -8,7 +8,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useToast } from "../components/ui/Toast";
 
 export function AuthPage({ mode }: { mode: "login" | "register" }) {
-  const { signIn, signUp, signInWithGoogle } = useAuth();
+  const { signIn, signUp } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -42,9 +42,6 @@ export function AuthPage({ mode }: { mode: "login" | "register" }) {
             <p className="text-sm text-cocoa/65">เก็บข้อมูลจริง ปลอดภัย และกลับมาใช้งานต่อได้เสมอ</p>
           </div>
         </div>
-        <Button className="mb-4 w-full" variant="secondary" onClick={signInWithGoogle}>
-          <Chrome size={18} /> Google OAuth
-        </Button>
         <form className="grid gap-4" onSubmit={submit}>
           <Field label="อีเมล">
             <Input type="email" required value={email} onChange={(event) => setEmail(event.target.value)} />

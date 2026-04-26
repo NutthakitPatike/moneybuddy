@@ -72,25 +72,16 @@ npm run dev:frontend
 
 The migration includes policies so authenticated users can only access rows where `auth.uid() = user_id`. Receipt files must be uploaded under `${user.id}/filename`, and storage policies enforce that folder ownership.
 
-## Google OAuth Setup Guide
+## Supabase Auth URL Setup
 
-1. In Google Cloud Console, create an OAuth Client ID.
-2. Add authorized redirect URI from Supabase:
-
-```text
-https://YOUR_SUPABASE_PROJECT.supabase.co/auth/v1/callback
-```
-
-3. In Supabase Dashboard, open Authentication > Providers > Google.
-4. Enable Google and paste the Google client ID and client secret.
-5. In Authentication > URL Configuration, add site URL and redirect URLs:
+In Supabase Dashboard, open Authentication > URL Configuration and add site URL and redirect URLs:
 
 ```text
 http://localhost:5173
 https://YOUR_FRONTEND_DOMAIN.vercel.app
 ```
 
-6. Test Google login and confirm the `profiles` row includes email/avatar metadata.
+Money Buddy currently uses email/password authentication only.
 
 ## DeepSeek Setup Guide
 
@@ -149,7 +140,7 @@ Recommended schedule: daily at 01:00 in your business timezone.
 ## Production Test Checklist
 
 - Sign up with email/password.
-- Log in with Google OAuth.
+- Log in with email/password.
 - Refresh the page and confirm the session persists.
 - Add income and expense transactions.
 - Log out, log back in, and confirm data remains.
