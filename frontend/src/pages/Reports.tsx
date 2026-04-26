@@ -1,5 +1,4 @@
 import { Download } from "lucide-react";
-import jsPDF from "jspdf";
 import { Area, AreaChart, Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
@@ -24,7 +23,8 @@ export function Reports() {
     URL.revokeObjectURL(url);
   }
 
-  function exportPdf() {
+  async function exportPdf() {
+    const { default: jsPDF } = await import("jspdf");
     const pdf = new jsPDF();
     pdf.text("Money Buddy", 16, 18);
     pdf.text(`Total income: ${data.totals.income}`, 16, 32);
