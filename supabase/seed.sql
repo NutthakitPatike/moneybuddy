@@ -1,0 +1,2 @@
+-- Default categories are created automatically for every new user by the signup trigger.
+-- This file is intentionally empty for production safety.

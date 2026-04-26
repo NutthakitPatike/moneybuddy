@@ -1,0 +1,20 @@
+{
+  "name": "money-buddy",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Production-ready personal income and expense tracker with Supabase and DeepSeek AI.",
+  "scripts": {
+    "dev": "npm run dev --workspace frontend",
+    "dev:frontend": "npm run dev --workspace frontend",
+    "dev:backend": "npm run dev --workspace backend",
+    "build": "npm run build --workspace frontend && npm run build --workspace backend",
+    "typecheck": "npm run typecheck --workspace frontend && npm run typecheck --workspace backend"
+  },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "engines": {
+    "node": ">=20"
+  }
+}
