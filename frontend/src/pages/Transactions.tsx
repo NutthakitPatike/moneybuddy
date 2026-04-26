@@ -2,6 +2,7 @@ import { Edit3, Plus, Search, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
+import { EmptyState } from "../components/EmptyState";
 import { Field, Input, Select } from "../components/ui/Input";
 import { TransactionModal } from "../components/TransactionModal";
 import { deleteTransaction } from "../services/moneyService";
@@ -89,11 +90,12 @@ export function Transactions() {
             </div>
             <div className="flex items-center gap-2">
               <p className={item.type === "income" ? "min-w-32 text-right font-black text-emerald-600" : "min-w-32 text-right font-black text-rose-600"}>{item.type === "income" ? "+" : "-"}{formatMoney(Number(item.amount))}</p>
-              <Button variant="secondary" size="icon" onClick={() => setEditing(item)} aria-label="Edit"><Edit3 size={16} /></Button>
-              <Button variant="danger" size="icon" onClick={() => remove(item)} aria-label="Delete"><Trash2 size={16} /></Button>
+              <Button variant="secondary" size="icon" onClick={() => setEditing(item)} aria-label="แก้ไขรายการ"><Edit3 size={16} /></Button>
+              <Button variant="danger" size="icon" onClick={() => remove(item)} aria-label="ลบรายการ"><Trash2 size={16} /></Button>
             </div>
           </Card>
         ))}
+        {rows.length === 0 && <EmptyState title="ยังไม่พบรายการ" text="ลองเพิ่มรายการใหม่ หรือลดเงื่อนไขการค้นหาและตัวกรองดูอีกครั้ง" />}
       </div>
       <TransactionModal open={adding || !!editing} transaction={editing} categories={data.categories} onClose={() => { setAdding(false); setEditing(null); }} onSaved={data.refresh} />
     </div>

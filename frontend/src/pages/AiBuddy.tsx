@@ -32,7 +32,7 @@ export function AiBuddy() {
         body: JSON.stringify({ message })
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+      if (!response.ok) throw new Error(response.status === 429 ? data.error ?? "ถามบ่อยเกินไป ลองพักสักครู่แล้วถามใหม่" : data.error);
       setMessages((current) => [...current, { id: crypto.randomUUID(), user_id: "", role: "assistant", message: data.answer, created_at: new Date().toISOString() }]);
       setMessage("");
     } catch (error) {
@@ -57,7 +57,7 @@ export function AiBuddy() {
         </div>
         <form className="mt-4 flex gap-2" onSubmit={submit}>
           <Input value={message} onChange={(e) => setMessage(e.target.value)} placeholder="พิมพ์คำถามภาษาไทยได้เลย" />
-          <Button disabled={loading}><Send size={18} /></Button>
+          <Button disabled={loading || !message.trim()}><Send size={18} /></Button>
         </form>
       </Card>
     </div>

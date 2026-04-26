@@ -15,7 +15,7 @@ export function Landing() {
       </header>
       <main className="mx-auto grid max-w-7xl gap-10 px-5 pb-16 pt-8 lg:grid-cols-[1fr_0.9fr] lg:items-center">
         <motion.section initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="grid gap-6">
-          <p className="w-fit rounded-full bg-mint px-4 py-2 text-sm font-bold text-emerald-800">Cute finance planner with real Supabase data</p>
+          <p className="w-fit rounded-full bg-mint px-4 py-2 text-sm font-bold text-emerald-800">สมุดวางแผนการเงินน่ารักที่ใช้ข้อมูลจริง</p>
           <h1 className="max-w-3xl text-5xl font-black leading-tight sm:text-6xl">Money Buddy</h1>
           <p className="max-w-2xl text-lg text-cocoa/72">บันทึกรายรับรายจ่าย วางงบ ดูรายงาน และคุยกับ AI ผู้ช่วยการเงินภาษาไทยที่วิเคราะห์ข้อมูลจริงของคุณอย่างปลอดภัย</p>
           <div className="flex flex-wrap gap-3">

@@ -57,14 +57,14 @@ export function AppLayout() {
           </Button>
         </div>
       </aside>
-      <main className="pb-24 lg:ml-72 lg:pb-0">
+      <main className="pb-28 lg:ml-72 lg:pb-0">
         <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
           <Outlet />
         </div>
       </main>
-      <nav className="fixed bottom-0 left-0 right-0 z-40 grid grid-cols-5 border-t border-white/80 bg-white/90 px-2 py-2 backdrop-blur-xl lg:hidden">
-        {nav.slice(0, 5).map((item) => (
-          <NavLink key={item.to} to={item.to} className={({ isActive }) => `grid place-items-center gap-1 rounded-2xl py-2 text-[11px] font-semibold ${isActive ? "bg-blush text-rose-700" : ""}`}>
+      <nav className="fixed bottom-0 left-0 right-0 z-40 flex gap-1 overflow-x-auto border-t border-white/80 bg-white/90 px-2 py-2 backdrop-blur-xl lg:hidden">
+        {nav.map((item) => (
+          <NavLink key={item.to} to={item.to} className={({ isActive }) => `grid min-w-16 flex-1 place-items-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-semibold ${isActive ? "bg-blush text-rose-700" : ""}`}>
             <item.icon size={18} />
             {item.label}
           </NavLink>

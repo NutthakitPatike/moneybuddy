@@ -63,7 +63,7 @@ export function Categories() {
             <div className="grid gap-3">
               {data.categories.filter((item) => item.type === section || item.type === "both").map((item) => (
                 <div key={item.id} className="flex items-center justify-between rounded-2xl bg-cream p-3">
-                  <div className="flex items-center gap-3"><span className="h-4 w-4 rounded-full" style={{ background: item.color }} /><div><p className="font-bold">{item.name}</p><p className="text-xs text-cocoa/55">{item.is_default ? "default" : "custom"} · {item.icon}</p></div></div>
+                  <div className="flex items-center gap-3"><span className="h-4 w-4 rounded-full" style={{ background: item.color }} /><div><p className="font-bold">{item.name}</p><p className="text-xs text-cocoa/55">{item.is_default ? "หมวดเริ่มต้น" : "หมวดที่สร้างเอง"} · {item.icon}</p></div></div>
                   <div className="flex gap-2"><Button size="icon" variant="secondary" onClick={() => start(item)}><Edit3 size={16} /></Button><Button size="icon" variant="danger" onClick={() => remove(item)}><Trash2 size={16} /></Button></div>
                 </div>
               ))}

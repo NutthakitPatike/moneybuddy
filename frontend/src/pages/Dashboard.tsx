@@ -42,7 +42,7 @@ export function Dashboard() {
           { label: "รายจ่ายเดือนนี้", value: data.totals.expenses, icon: TrendingDown, tone: "bg-blush text-rose-700" },
           { label: "คงเหลือ", value: data.totals.balance, icon: Wallet, tone: "bg-skysoft text-sky-700" },
           { label: "งบคงเหลือ", value: data.totals.remainingBudget, icon: Wallet, tone: "bg-amber-100 text-amber-700" },
-          { label: "Savings rate", value: data.totals.savingsRate, percent: true, icon: TrendingUp, tone: "bg-violet-100 text-violet-700" }
+          { label: "อัตราการออม", value: data.totals.savingsRate, percent: true, icon: TrendingUp, tone: "bg-violet-100 text-violet-700" }
         ].map((item) => (
           <Card key={item.label}>
             <div className={`mb-4 grid h-11 w-11 place-items-center rounded-2xl ${item.tone}`}><item.icon size={20} /></div>

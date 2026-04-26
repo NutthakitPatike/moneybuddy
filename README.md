@@ -1,28 +1,28 @@
 # Money Buddy
 
-Money Buddy is a production-ready personal income and expense tracker built with React, TypeScript, Vite, Tailwind CSS, Supabase Auth/PostgreSQL/Storage, an Express API, and DeepSeek AI.
+Money Buddy คือเว็บแอปรายรับรายจ่ายส่วนตัวแบบใช้งานจริง มี Supabase Auth/PostgreSQL/Storage, Express API และ DeepSeek AI ผู้ช่วยการเงินภาษาไทย
 
-## Architecture
+## โครงสร้างโปรเจกต์
 
-- `frontend`: React SPA deployed to Vercel. It uses only `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, and `VITE_API_URL`.
-- `backend`: Express API deployed to Render, Railway, or Vercel serverless. It verifies Supabase auth tokens and keeps `SUPABASE_SERVICE_ROLE_KEY` and `DEEPSEEK_API_KEY` server-side.
-- `supabase`: SQL migration with tables, RLS, signup profile trigger, default categories, and private receipt storage policies.
+- `frontend`: React + TypeScript + Vite deploy บน Vercel
+- `backend`: Express API deploy บน Render, Railway หรือ Vercel serverless
+- `supabase`: SQL migration สำหรับตาราง, RLS, trigger สมัครสมาชิก, default categories และ storage policies
 
-## Local Setup
+## เริ่มใช้งานบนเครื่อง
 
-1. Install dependencies:
+1. ติดตั้ง dependencies:
 
 ```bash
 npm install
 ```
 
-2. Create a Supabase project, then run:
+2. สร้าง Supabase project แล้วรัน:
 
 ```bash
 supabase/migrations/001_initial_schema.sql
 ```
 
-Use the Supabase SQL editor if you are not using the Supabase CLI.
+ถ้าไม่ได้ใช้ Supabase CLI ให้เปิด Supabase SQL Editor แล้ววาง SQL ทั้งไฟล์ลงไปรัน
 
 3. Copy env files:
 
@@ -31,7 +31,7 @@ cp frontend/.env.example frontend/.env
 cp backend/.env.example backend/.env
 ```
 
-4. Fill in:
+4. ใส่ค่า env:
 
 Frontend:
 
@@ -53,45 +53,43 @@ FRONTEND_URL=http://localhost:5173
 PORT=4000
 ```
 
-5. Run locally:
+5. รันในเครื่อง:
 
 ```bash
 npm run dev:backend
 npm run dev:frontend
 ```
 
-## Supabase Setup Guide
+## ตั้งค่า Supabase
 
-1. Create a new Supabase project.
-2. Open SQL Editor.
-3. Run `supabase/migrations/001_initial_schema.sql`.
-4. Confirm these tables exist: `profiles`, `transactions`, `categories`, `budgets`, `recurring_transactions`, `receipts`, `ai_chat_history`, `user_settings`.
-5. Confirm Row Level Security is enabled on every public user table.
-6. Confirm Storage has a private `receipts` bucket.
-7. Confirm new signups create a profile, user settings row, and default categories.
-
-The migration includes policies so authenticated users can only access rows where `auth.uid() = user_id`. Receipt files must be uploaded under `${user.id}/filename`, and storage policies enforce that folder ownership.
-
-## Supabase Auth URL Setup
-
-In Supabase Dashboard, open Authentication > URL Configuration and add site URL and redirect URLs:
+1. เปิด Supabase SQL Editor
+2. รัน `supabase/migrations/001_initial_schema.sql`
+3. ตรวจว่ามีตาราง `profiles`, `transactions`, `categories`, `budgets`, `recurring_transactions`, `receipts`, `ai_chat_history`, `user_settings`
+4. ตรวจว่า RLS เปิดอยู่ทุก user table
+5. ตรวจว่ามี private bucket ชื่อ `receipts`
+6. ไปที่ Authentication > URL Configuration แล้วเพิ่ม:
 
 ```text
 http://localhost:5173
 https://YOUR_FRONTEND_DOMAIN.vercel.app
 ```
 
-Money Buddy currently uses email/password authentication only.
+Money Buddy ใช้ email/password authentication เท่านั้น
 
-## DeepSeek Setup Guide
+## ตั้งค่า DeepSeek
 
-1. Create a DeepSeek API key.
-2. Put it only in `backend/.env` or backend hosting environment variables.
-3. Never add it to frontend env vars.
-4. Frontend calls `POST /api/ai/chat` with the Supabase access token.
-5. Backend verifies the token, fetches the user’s real finance summary, calls DeepSeek, and saves both user and assistant messages to `ai_chat_history`.
+1. สร้าง DeepSeek API key
+2. ใส่ key เฉพาะใน `backend/.env` หรือ environment variables ของ backend hosting
+3. ห้ามใส่ DeepSeek key ใน frontend
+4. Frontend เรียก `POST /api/ai/chat` พร้อม Supabase access token
+5. Backend ตรวจ token, ดึงสรุปข้อมูลการเงินจริง, เรียก DeepSeek แล้วบันทึกประวัติลง `ai_chat_history`
+6. AI endpoint มี rate limit 12 ครั้งต่อผู้ใช้ต่อ 10 นาที
 
-## Deployment Guide
+## Deploy
+
+อ่านคู่มือภาษาไทยแบบละเอียดได้ที่ `DEPLOYMENT_TH.md`
+
+### Frontend to Vercel
 
 ### Frontend to Vercel
 
@@ -125,36 +123,34 @@ VITE_API_URL=https://YOUR_BACKEND_DOMAIN
 3. Add backend environment variables.
 4. Deploy and use the deployment URL as `VITE_API_URL`.
 
-## Recurring Transactions in Production
+## รายการประจำใน production
 
-The backend exposes:
+Backend มี endpoint:
 
 ```text
 POST /api/recurring/run-due
 ```
 
-For per-user manual runs, the frontend calls it with the user session token. For automatic production processing, create a scheduled job on Render/Railway/Vercel Cron that calls a protected admin variant or Supabase Edge Function using the same logic in `backend/src/services/recurring.ts`.
+สำหรับผู้ใช้ทั่วไป frontend จะเรียก endpoint นี้ด้วย session token ของผู้ใช้ ถ้าต้องการรันอัตโนมัติใน production ให้ตั้ง scheduled job รายวันบน Render/Railway/Vercel Cron หรือ Supabase Edge Function โดยใช้ logic ใน `backend/src/services/recurring.ts`
 
-Recommended schedule: daily at 01:00 in your business timezone.
+แนะนำให้รันวันละครั้งช่วงตีหนึ่งตาม timezone ที่ใช้งาน
 
-## Production Test Checklist
+## Checklist ก่อนใช้งานจริง
 
-- Sign up with email/password.
-- Log in with email/password.
-- Refresh the page and confirm the session persists.
-- Add income and expense transactions.
-- Log out, log back in, and confirm data remains.
-- Create a second user and confirm the first user’s rows are invisible.
-- Upload a receipt and confirm the file path starts with the current user id.
-- Set total and category budgets.
-- Confirm dashboard and reports update from real Supabase data.
-- Ask AI Money Buddy a question and confirm chat history is saved.
-- Test mobile layout and desktop sidebar.
+- สมัครและ login ด้วย email/password ได้
+- refresh หน้าแล้ว session ยังอยู่
+- เพิ่มรายรับ/รายจ่ายแล้วข้อมูลอยู่ใน Supabase
+- logout แล้ว login ใหม่ ข้อมูลยังอยู่
+- user คนอื่นมองไม่เห็นข้อมูลของเรา
+- อัปโหลดใบเสร็จได้
+- Dashboard/Reports ใช้ข้อมูลจริง
+- AI Money Buddy ตอบจากข้อมูลจริงและบันทึก chat history
+- mobile navigation เข้าถึงทุกหน้าได้
 
-## Security Notes
+## หมายเหตุด้านความปลอดภัย
 
-- The frontend uses only the Supabase anon key.
-- The backend derives the user from the Supabase access token and never trusts a client-sent `user_id`.
-- Supabase service role and DeepSeek keys live only in backend env vars.
-- RLS is enabled on all user-owned tables.
-- Storage policies isolate receipt files by user id folder.
+- Frontend ใช้เฉพาะ Supabase anon/publishable key
+- Backend ตรวจตัวตนจาก Supabase access token
+- Service role key และ DeepSeek key อยู่เฉพาะ backend env
+- เปิด RLS ทุกตารางของผู้ใช้
+- Receipt storage แยกไฟล์ตาม user id folder

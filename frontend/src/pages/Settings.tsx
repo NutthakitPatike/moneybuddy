@@ -40,7 +40,7 @@ export function Settings() {
         <Card>
           <div className="flex items-center gap-4">
             {user?.user_metadata?.avatar_url ? <img src={user.user_metadata.avatar_url as string} className="h-16 w-16 rounded-full" alt="" /> : <div className="h-16 w-16 rounded-full bg-blush" />}
-            <div className="min-w-0"><p className="truncate text-xl font-black">{user?.user_metadata?.full_name ?? user?.email}</p><p className="truncate text-sm text-cocoa/60">{user?.email}</p><p className="text-xs text-cocoa/50">Provider: {user?.app_metadata?.provider ?? "email"}</p></div>
+            <div className="min-w-0"><p className="truncate text-xl font-black">{user?.user_metadata?.full_name ?? user?.email}</p><p className="truncate text-sm text-cocoa/60">{user?.email}</p><p className="text-xs text-cocoa/50">วิธีเข้าสู่ระบบ: {user?.app_metadata?.provider === "email" ? "อีเมลและรหัสผ่าน" : user?.app_metadata?.provider ?? "อีเมล"}</p></div>
           </div>
         </Card>
         <Card>
@@ -48,8 +48,8 @@ export function Settings() {
             <form className="grid gap-4" onSubmit={submit}>
               <div className="grid gap-4 sm:grid-cols-3">
                 <Field label="สกุลเงิน"><Input value={settings.currency} onChange={(e) => setSettings({ ...settings, currency: e.target.value.toUpperCase() })} /></Field>
-                <Field label="ภาษา"><Select value={settings.language} onChange={(e) => setSettings({ ...settings, language: e.target.value })}><option value="th">ไทย</option><option value="en">English</option></Select></Field>
-                <Field label="ธีม"><Select value={settings.theme} onChange={(e) => setSettings({ ...settings, theme: e.target.value })}><option value="light">Light</option><option value="dark">Dark</option></Select></Field>
+                <Field label="ภาษา"><Select value={settings.language} onChange={(e) => setSettings({ ...settings, language: e.target.value })}><option value="th">ไทย</option><option value="en">อังกฤษ</option></Select></Field>
+                <Field label="ธีม"><Select value={settings.theme} onChange={(e) => setSettings({ ...settings, theme: e.target.value })}><option value="light">สว่าง</option><option value="dark">มืด</option></Select></Field>
               </div>
               <Button><Save size={18} /> บันทึก</Button>
             </form>
@@ -59,10 +59,10 @@ export function Settings() {
       <Card className="grid gap-3">
         <h2 className="font-black">ส่งออกข้อมูล</h2>
         <p className="text-sm text-cocoa/65">ดาวน์โหลดข้อมูลรายการทั้งหมดของผู้ใช้ปัจจุบันเป็น JSON</p>
-        <Button className="w-fit" variant="secondary" onClick={exportAll}><Download size={18} /> Export all user data</Button>
+        <Button className="w-fit" variant="secondary" onClick={exportAll}><Download size={18} /> ส่งออกข้อมูลทั้งหมด</Button>
       </Card>
       <Card className="border border-red-200 bg-red-50">
-        <div className="flex gap-3"><ShieldAlert className="text-red-600" /><div><h2 className="font-black text-red-700">Delete account warning</h2><p className="text-sm text-red-700/80">การลบบัญชีควรทำผ่าน Supabase admin flow หรือ backend endpoint ที่ยืนยันตัวตนซ้ำก่อนลบจริง</p></div></div>
+        <div className="flex gap-3"><ShieldAlert className="text-red-600" /><div><h2 className="font-black text-red-700">คำเตือนก่อนลบบัญชี</h2><p className="text-sm text-red-700/80">การลบบัญชีควรทำผ่าน endpoint ฝั่ง backend ที่ยืนยันตัวตนซ้ำก่อนลบจริง เพื่อป้องกันการลบโดยไม่ตั้งใจ</p></div></div>
       </Card>
     </div>
   );
